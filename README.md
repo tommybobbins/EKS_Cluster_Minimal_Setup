@@ -11,5 +11,7 @@ $ tofu apply
 
 Bootstrap scripts to add an OIDC deployment role, then use github actions to auto-deploy an EKS cluster in AWS.
 
+## Things to think about (notes to self)
 
-
+- Ensure that the OIDC from the eks module is reflected in the help chart for load balancer controller: https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller .
+- Options to install from the command line instead of github actions.
