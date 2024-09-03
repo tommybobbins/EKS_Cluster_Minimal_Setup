@@ -15,3 +15,4 @@ Bootstrap scripts to add an OIDC deployment role, then use github actions to aut
 
 - Ensure that the OIDC from the eks module is reflected in the help chart for load balancer controller: https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller .
 - Options to install from the command line instead of github actions.
+- Ingress and Gateway API options.
