@@ -8,6 +8,19 @@ module "eks" {
   cluster_name                   = local.name
   cluster_version                = local.cluster_version
   cluster_endpoint_public_access = false
+  cluster_security_group_name    = local.name
+  cluster_security_group_description    = "EKS Cluster security Group"
+
+  cluster_security_group_additional_rules = {
+    ingress_ec2_tcp = {
+      description                = "Access EKS from EC2 instance."
+      protocol                   = "tcp"
+      from_port                  = 443
+      to_port                    = 443
+      type                       = "ingress"
+      source_security_group_id   = [module.vpc.cidr_block]
+    }
+  }
 
   vpc_id                   = module.vpc.vpc_id
   subnet_ids               = module.vpc.private_subnets
