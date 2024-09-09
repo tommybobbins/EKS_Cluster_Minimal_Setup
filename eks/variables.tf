@@ -41,6 +41,12 @@ variable "dynamo_tf_lock_table" {
 
 variable "common_tags" {
   description = "Default Resource Tags"
+  type = map
+  default = {
+  Project   = "eksmvp"
+  ManagedBy = "terraform"
+  env = "dev"
+  }
 }
 
 data "aws_caller_identity" "current" {}
