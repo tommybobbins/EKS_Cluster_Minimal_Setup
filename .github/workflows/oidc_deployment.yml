@@ -30,7 +30,7 @@ jobs:
       with:
         role-to-assume: "${{ secrets.ROLE_TO_ASSUME}}"
         role-session-name: eksrolesession
-        aws-region: "$AWS_REGION"
+        aws-region: "${{ vars.AWS_REGION }}"
         
     - name: OpenTofu fmt
       id: fmt
