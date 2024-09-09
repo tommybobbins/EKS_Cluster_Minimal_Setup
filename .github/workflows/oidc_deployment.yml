@@ -28,9 +28,9 @@ jobs:
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
-        role-to-assume: ${{ secrets.ROLE_TO_ASSUME}}
+        role-to-assume: "${{ secrets.ROLE_TO_ASSUME}}"
         role-session-name: eksrolesession
-        aws-region: ${{vars.AWS_REGION}}
+        aws-region: "$AWS_REGION"
         
     - name: OpenTofu fmt
       id: fmt
