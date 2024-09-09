@@ -11,11 +11,11 @@ defaults:
   run:
     working-directory: eks
 
-environment: ${{ inputs.environment }}
+# environment: ${{ inputs.environment }}
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+  env_var: "development"
 
 jobs:
   opentf:
