@@ -15,7 +15,7 @@ defaults:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  env_var: "development"
+  AWS_REGION: ${{ vars.AWS_REGION }}
 
 jobs:
   opentf:
@@ -30,7 +30,7 @@ jobs:
       with:
         role-to-assume: "${{ secrets.ROLE_TO_ASSUME}}"
         role-session-name: eksrolesession
-        aws-region: "${{ vars.AWS_REGION }}"
+        aws-region: "$AWS_REGION"
         
     - name: OpenTofu fmt
       id: fmt
