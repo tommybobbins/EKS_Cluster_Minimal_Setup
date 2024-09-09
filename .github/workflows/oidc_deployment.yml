@@ -29,7 +29,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: opentofu/setup-opentofu@v1
-
+      with:
+        tofu_version: 1.6.0
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
@@ -53,7 +54,7 @@ jobs:
     - name: OpenTofu Plan
       id: plan
       run: tofu plan
-      continue-on-error: true
+      continue-on-error: false
 
     - name: Check S3 List
       id: s3list
@@ -62,7 +63,7 @@ jobs:
 
     - name: OpenTofu Apply
       id: apply
-      run: tofu apply -no-color
+      run: tofu apply -auto-approve -no-color
 
     - name: Check S3 List
       id: s3list2
