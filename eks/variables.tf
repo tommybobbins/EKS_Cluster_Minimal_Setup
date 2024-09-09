@@ -36,16 +36,16 @@ variable "state_bucket" {
 
 variable "dynamo_tf_lock_table" {
   description = "DDB Terraform Lock table"
-  default = "terraform_state"
+  default     = "terraform_state"
 }
 
 variable "common_tags" {
   description = "Default Resource Tags"
-  type = map
+  type        = map(any)
   default = {
-  Project   = "eksmvp"
-  ManagedBy = "terraform"
-  env = "dev"
+    Project   = "eksmvp"
+    ManagedBy = "terraform"
+    env       = "dev"
   }
 }
 
