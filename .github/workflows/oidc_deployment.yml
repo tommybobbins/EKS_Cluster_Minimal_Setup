@@ -30,8 +30,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: opentofu/setup-opentofu@v1
-      with:
-        tofu_version: 1.6.0
+      # with:
+      #   tofu_version: 1.6.0
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
