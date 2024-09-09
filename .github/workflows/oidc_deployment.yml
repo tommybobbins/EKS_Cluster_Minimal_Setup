@@ -1,4 +1,4 @@
-name: tofu-example
+name: eks-mvp-deployment
 
 on:
   workflow_dispatch:
