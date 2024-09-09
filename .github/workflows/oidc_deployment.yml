@@ -3,7 +3,7 @@ name: tofu-example
 on:
   workflow_dispatch:
     inputs:
-      env:
+      environment:
         description: 'The GitHub environment to use'
         required: true
         type: string
