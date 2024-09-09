@@ -57,12 +57,15 @@ jobs:
 
     - name: Check S3 List
       id: s3list
-      run: aws s3 ls
+      run: aws s3 ls "s3://${{ vars.TF_VAR_STATE_BUCKET }}/*"
 
-    # - name: OpenTofu Apply
-    #   id: apply
-    #   run: tofu apply -no-color
-    #   continue-on-error: true
+    - name: OpenTofu Apply
+      id: apply
+      run: tofu apply -no-color
+
+    - name: Check S3 List
+      id: s3list2
+      run: aws s3 ls "s3://${{ vars.TF_VAR_STATE_BUCKET }}/*"
     
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
