@@ -54,17 +54,17 @@ jobs:
     
     - name: OpenTofu Plan
       id: plan
-      run: tofu plan
+      run: tofu plan -out tfplan.out
       continue-on-error: false
 
-    - name: Check S3 List
-      id: s3list
-      run: aws s3 ls s3://${{ vars.TF_VAR_STATE_BUCKET }}/*
-      continue-on-error: true
+    # - name: Check S3 List
+    #   id: s3list
+    #   run: aws s3 ls s3://${{ vars.TF_VAR_STATE_BUCKET }}/*
+    #   continue-on-error: true
 
     - name: OpenTofu Apply
       id: apply
-      run: tofu apply -auto-approve -no-color
+      run: tofu apply -auto-approve -no-color tfplan.out
 
     - name: Check S3 List
       id: s3list2
