@@ -21,6 +21,7 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   # AWS_REGION: ${{ vars.AWS_REGION }}
   TF_VAR_state_bucket: ${{ vars.TF_VAR_STATE_BUCKET }}
+  TF_VAR_aws_region: ${{ vars.AWS_REGION }}
 
 jobs:
   opentf:
