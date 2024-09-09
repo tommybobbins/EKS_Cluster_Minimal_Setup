@@ -2,6 +2,12 @@ name: tofu-example
 
 on:
   workflow_dispatch:
+    inputs:
+      env:
+        description: 'The GitHub environment to use'
+        required: true
+        type: string
+        default: "development"
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -11,16 +17,14 @@ defaults:
   run:
     working-directory: eks
 
-# environment: ${{ inputs.environment }}
-
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  AWS_REGION: ${{ vars.AWS_REGION }}
+  # AWS_REGION: ${{ vars.AWS_REGION }}
 
 jobs:
   opentf:
     runs-on: ubuntu-latest
-    environment: ${{ vars.ENVIRONMENT_STAGE }}
+    environment: ${{ inputs.environment }}
     steps:
     - uses: actions/checkout@v3
     - uses: opentofu/setup-opentofu@v1
@@ -28,9 +32,9 @@ jobs:
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
-        role-to-assume: "${{ secrets.ROLE_TO_ASSUME}}"
+        role-to-assume: ${{ secrets.ROLE_TO_ASSUME}}
         role-session-name: eksrolesession
-        aws-region: $AWS_REGION
+        aws-region:  ${{ vars.AWS_REGION }}
         
     - name: OpenTofu fmt
       id: fmt
