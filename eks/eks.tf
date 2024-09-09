@@ -3,24 +3,25 @@
 ################################################################################
 
 module "eks" {
-  source                         = "terraform-aws-modules/eks/aws"
-  version                        = "~> 20.13.1"
-  cluster_name                   = local.name
-  cluster_version                = local.cluster_version
-  cluster_endpoint_public_access = false
-  cluster_security_group_name    = local.name
-  cluster_security_group_description    = "EKS Cluster security Group"
+  source                             = "terraform-aws-modules/eks/aws"
+  version                            = "~> 20.13.1"
+  cluster_name                       = local.name
+  cluster_version                    = local.cluster_version
+  cluster_endpoint_public_access     = false
+  cluster_security_group_name        = local.name
+  cluster_security_group_description = "EKS Cluster security Group"
 
   cluster_security_group_additional_rules = {
-    ingress_ec2_tcp = {
-      description                = "Access EKS from EC2 instance."
-      protocol                   = "tcp"
-      from_port                  = 443
-      to_port                    = 443
-      type                       = "ingress"
-      source_security_group_id   = [module.vpc.cidr_block]
-    }
+    # ingress_ec2_tcp = {
+    #   description              = "Access EKS from EC2 instance."
+    #   protocol                 = "tcp"
+    #   from_port                = 443
+    #   to_port                  = 443
+    #   type                     = "ingress"
+    #   source_security_group_id = [var.ec2_security_group_id]
+    # }
   }
+
 
   vpc_id                   = module.vpc.vpc_id
   subnet_ids               = module.vpc.private_subnets
@@ -129,7 +130,7 @@ resource "aws_eks_addon" "vpc-cni" {
 
 locals {
   sso_string_to_remove = "sso.amazonaws.com/${var.aws_region}/"
-  write_roles = setsubtract(concat([replace(data.aws_caller_identity.current.arn,local.sso_string_to_remove,"")]), [])
+  write_roles          = setsubtract(concat([replace(data.aws_caller_identity.current.arn, local.sso_string_to_remove, "")]), [])
 }
 
 resource "aws_eks_access_entry" "write_roles" {

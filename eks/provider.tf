@@ -28,6 +28,11 @@ provider "helm" {
 }
 
 terraform {
+  backend "s3" {
+    bucket = var.state_bucket
+    key    = var.common_tags.Project
+    region = var.aws_region
+  }
   required_version = "~> 1.0"
   required_providers {
     aws = {
@@ -39,7 +44,7 @@ terraform {
       version = ">= 2.10"
     }
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "2.15.0"
     }
   }
