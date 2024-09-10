@@ -1,4 +1,4 @@
-name: eks-mvp-deployment
+name: k8s-deployment
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ permissions:
 
 defaults:
   run:
-    working-directory: eks
+    working-directory: k8s
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -38,11 +38,7 @@ jobs:
         role-to-assume: ${{ secrets.ROLE_TO_ASSUME}}
         role-session-name: eksrolesession
         aws-region:  ${{ vars.AWS_REGION }}
-      
-
-    - name: Update kube config
-      run: aws eks --region eu-west-2 update-kubeconfig --name $(aws eks list-clusters --region=${{ vars.AWS_REGION }} --query 'clusters[]' --output text)
-
+        
     - name: OpenTofu fmt
       id: fmt
       run: tofu fmt -check
@@ -75,9 +71,9 @@ jobs:
     #   run: aws s3 ls s3://${{ vars.TF_VAR_STATE_BUCKET }}/*
     #   continue-on-error: true
 
-    - name: OpenTofu Destroy
-      id: destroy
-      run: tofu destroy -auto-approve
+    # - name: OpenTofu Destroy
+    #   id: destroy
+    #   run: tofu destroy -auto-approve
 
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
