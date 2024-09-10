@@ -41,6 +41,7 @@ jobs:
       
 
     - name: Update kube config
+      id: update-kubeconfig
       run: aws eks --region eu-west-2 update-kubeconfig --name $(aws eks list-clusters --region=${{ vars.AWS_REGION }} --query 'clusters[]' --output text)
 
     - name: OpenTofu fmt
