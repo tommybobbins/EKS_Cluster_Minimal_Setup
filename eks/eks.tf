@@ -107,7 +107,7 @@ module "eks" {
 resource "aws_eks_addon" "aws-ebs-csi-driver" {
   cluster_name = module.eks.cluster_name
   addon_name   = "aws-ebs-csi-driver"
-  # resolve_conflicts = "OVERWRITE"
+  resolve_conflicts = "OVERWRITE"
 }
 
 resource "aws_eks_addon" "kube-proxy" {
