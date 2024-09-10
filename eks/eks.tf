@@ -107,19 +107,19 @@ module "eks" {
 resource "aws_eks_addon" "aws-ebs-csi-driver" {
   cluster_name = module.eks.cluster_name
   addon_name   = "aws-ebs-csi-driver"
-  resolve_conflicts = "OVERWRITE"
+  resolve_conflicts_on_create = "OVERWRITE"
 }
 
 resource "aws_eks_addon" "kube-proxy" {
   cluster_name = module.eks.cluster_name
   addon_name   = "kube-proxy"
-  # resolve_conflicts = "OVERWRITE"
+  resolve_conflicts_on_create = "OVERWRITE"
 }
 
 resource "aws_eks_addon" "coredns" {
   cluster_name = module.eks.cluster_name
   addon_name   = "coredns"
-  # resolve_conflicts = "OVERWRITE"
+  resolve_conflicts_on_create = "OVERWRITE"
 }
 
 resource "aws_eks_addon" "vpc-cni" {
