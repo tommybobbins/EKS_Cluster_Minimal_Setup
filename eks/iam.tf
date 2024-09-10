@@ -8,5 +8,6 @@ data "aws_iam_role" "sso_admin" {
 }
 
 locals {
-  sso_admin_arn = "arn:aws:sts::${data.aws_caller_identity.current.account_id}:assumed-role/${split("/", (one([data.aws_iam_role.sso_admin[0].arn])))[3]}"
+  sso_admin_arn = one([data.aws_iam_role.sso_admin[0].arn])
+
 }
