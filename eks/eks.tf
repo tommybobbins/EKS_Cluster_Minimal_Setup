@@ -127,10 +127,13 @@ resource "aws_eks_addon" "vpc-cni" {
   resolve_conflicts_on_create = "OVERWRITE"
 }
 
+# arn:aws:sts::010438474314:assumed-role/github-oidc-provider-eksmvp-dev/eksrolesession
+# arn:aws:iam::010438474314:role/github-oidc-provider-eksmvp-dev
+# arn:aws:sts::010438474314:assumed-role/github-oidc-provider-eksmvp-dev/eksrolesession
 
 locals {
-  sso_string_to_remove = "sso.amazonaws.com/${var.aws_region}/"
-  write_roles          = setsubtract(concat([replace(data.aws_caller_identity.current.arn, local.sso_string_to_remove, "")], [local.sso_admin_arn]), [])
+  # sso_string_to_remove = "sso.amazonaws.com/${var.aws_region}/"
+  write_roles          = setsubtract(concat([local.github_oidc_arn, local.sso_admin_arn]), [])
 }
 
 resource "aws_eks_access_entry" "write_roles" {
