@@ -70,7 +70,11 @@ jobs:
       id: s3list2
       run: aws s3 ls s3://${{ vars.TF_VAR_STATE_BUCKET }}/*
       continue-on-error: true
-    
+
+    - name: OpenTofu Destroy
+      id: destroy
+      run: tofu destroy -auto-approve
+
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
       env:

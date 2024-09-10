@@ -130,7 +130,8 @@ resource "aws_eks_addon" "vpc-cni" {
 
 locals {
   sso_string_to_remove = "sso.amazonaws.com/${var.aws_region}/"
-  write_roles          = setsubtract(concat([replace(data.aws_caller_identity.current.arn, local.sso_string_to_remove, "")]), [])
+  current_role          = setsubtract(concat([replace(data.aws_caller_identity.current.arn, local.sso_string_to_remove, "")]), [])
+  write_roles           = concat([local.current_role],[local.sso_admin_arn])
 }
 
 resource "aws_eks_access_entry" "write_roles" {
