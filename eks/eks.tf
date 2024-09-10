@@ -7,7 +7,8 @@ module "eks" {
   version                            = "~> 20.13.1"
   cluster_name                       = local.name
   cluster_version                    = local.cluster_version
-  cluster_endpoint_public_access     = false
+  cluster_endpoint_public_access     = true
+  cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
   cluster_security_group_name        = local.name
   cluster_security_group_description = "EKS Cluster security Group"
 
@@ -127,12 +128,7 @@ resource "aws_eks_addon" "vpc-cni" {
   resolve_conflicts_on_create = "OVERWRITE"
 }
 
-# arn:aws:sts::010438474314:assumed-role/github-oidc-provider-eksmvp-dev/eksrolesession
-# arn:aws:iam::010438474314:role/github-oidc-provider-eksmvp-dev
-# arn:aws:sts::010438474314:assumed-role/github-oidc-provider-eksmvp-dev/eksrolesession
-
 locals {
-  # sso_string_to_remove = "sso.amazonaws.com/${var.aws_region}/"
   write_roles          = setsubtract(concat([local.github_oidc_arn, local.sso_admin_arn]), [])
 }
 
