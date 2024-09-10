@@ -128,6 +128,12 @@ resource "aws_eks_addon" "vpc-cni" {
   resolve_conflicts_on_create = "OVERWRITE"
 }
 
+resource "aws_eks_addon" "eks-pod-identity-agent" {
+  cluster_name                = module.eks.cluster_name
+  addon_name                  = "eks-pod-identity-agent"
+  resolve_conflicts_on_create = "OVERWRITE"
+}
+
 locals {
   write_roles          = setsubtract(concat([local.github_oidc_arn, local.sso_admin_arn]), [])
 }
