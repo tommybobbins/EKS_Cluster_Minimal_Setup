@@ -1,0 +1,85 @@
+name: eks-teardown
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The GitHub environment to use'
+        required: true
+        type: string
+        default: "development"
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+defaults:
+  run:
+    working-directory: eks
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  # AWS_REGION: ${{ vars.AWS_REGION }}
+  TF_VAR_state_bucket: ${{ vars.TF_VAR_STATE_BUCKET }}
+  TF_VAR_aws_region: ${{ vars.AWS_REGION }}
+
+jobs:
+  opentf:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: opentofu/setup-opentofu@v1
+      # with:
+      #   tofu_version: 1.6.0
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: ${{ secrets.ROLE_TO_ASSUME}}
+        role-session-name: eksrolesession
+        aws-region:  ${{ vars.AWS_REGION }}
+        
+    - name: OpenTofu Init
+      id: init
+      run: tofu init
+    
+    - name: OpenTofu Destroy
+      id: destroy
+      run: tofu destroy -auto-approve
+
+    - uses: actions/github-script@v6
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "tofu\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### OpenTofu Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### OpenTofu Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### OpenTofu Validation 🤖\`${{ steps.validate.outcome }}\`
+          <details><summary>Validation Output</summary>
+    
+          \`\`\`\n
+          ${{ steps.validate.outputs.stdout }}
+          \`\`\`
+    
+          </details>
+    
+          #### OpenTofu Plan 📖\`${{ steps.plan.outcome }}\`
+    
+          <details><summary>Show Plan</summary>
+    
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+    
+          </details>
+    
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+    
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
