@@ -1,6 +1,5 @@
 resource "helm_release" "kong-gateway" {
   name      = "kong-gateway"
-  chart     = "./gateway/kong/helm"
-  namespace = "default"
+  chart     = "./gateway/kong-gateway"
   timeout   = 600
 }
