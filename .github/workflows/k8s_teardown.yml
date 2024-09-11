@@ -1,0 +1,58 @@
+name: k8s-teardown
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The GitHub environment to use'
+        required: true
+        type: string
+        default: "development"
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+defaults:
+  run:
+    working-directory: k8s
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  # AWS_REGION: ${{ vars.AWS_REGION }}
+  TF_VAR_state_bucket: ${{ vars.TF_VAR_STATE_BUCKET }}
+  TF_VAR_aws_region: ${{ vars.AWS_REGION }}
+
+jobs:
+  opentf:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: opentofu/setup-opentofu@v1.0.4
+      # with:
+      #   tofu_version: 1.6.0
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: ${{ secrets.ROLE_TO_ASSUME}}
+        role-session-name: eksrolesession
+        aws-region:  ${{ vars.AWS_REGION }}
+
+    - name: Update kube config
+      id: update-kubeconfig
+      run: aws eks --region eu-west-2 update-kubeconfig --name $(aws eks list-clusters --region=${{ vars.AWS_REGION }} --query 'clusters[]' --output text)
+          
+    - name: OpenTofu fmt
+      id: fmt
+      run: tofu fmt -check
+      continue-on-error: true
+  
+    - name: OpenTofu Init
+      id: init
+      run: tofu init
+    
+    - name: OpenTofu Destroy
+      id: destroy
+      run: tofu destroy -auto-approve
+      continue-on-error: false
