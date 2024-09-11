@@ -22,7 +22,7 @@ variable "vpc_cidr" {
 
 variable "eks_size" {
   description = "EKS Size (min,max,desired)"
-  default     = ["1", "3", "1"]
+  default     = ["1", "3", "2"]
 }
 
 variable "aws_region" {
