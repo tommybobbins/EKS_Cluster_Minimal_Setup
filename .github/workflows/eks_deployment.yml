@@ -29,7 +29,7 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
     - uses: actions/checkout@v3
-    - uses: opentofu/setup-opentofu@v1
+    - uses: opentofu/setup-opentofu@v1.0.4
       # with:
       #   tofu_version: 1.6.0
     - name: configure aws credentials
@@ -57,20 +57,11 @@ jobs:
       run: tofu plan -out tfplan.out
       continue-on-error: false
 
-    # - name: Check S3 List
-    #   id: s3list
-    #   run: aws s3 ls s3://${{ vars.TF_VAR_STATE_BUCKET }}/*
-    #   continue-on-error: true
-
     - name: OpenTofu Apply
       id: apply
       run: tofu apply -auto-approve -no-color tfplan.out
 
-    # - name: Check S3 List
-    #   id: s3list2
-    #   run: aws s3 ls s3://${{ vars.TF_VAR_STATE_BUCKET }}/*
-    #   continue-on-error: true
-
+    # Moved to separate workflow
     # - name: OpenTofu Destroy
     #   id: destroy
     #   run: tofu destroy -auto-approve
