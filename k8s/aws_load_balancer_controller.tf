@@ -251,7 +251,7 @@ POLICY
 
 
 resource "aws_iam_role" "aws_load_balancer_role" {
-  for_each = toset(data.aws_eks_clusters.clusters.names)
+  for_each           = toset(data.aws_eks_clusters.clusters.names)
   name               = "AmazonEKSLoadBalancerControllerRole"
   assume_role_policy = <<ROLE
 {
@@ -276,7 +276,7 @@ ROLE
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller" {
-  for_each = toset(data.aws_eks_clusters.clusters.names)
+  for_each   = toset(data.aws_eks_clusters.clusters.names)
   role       = aws_iam_role.aws_load_balancer_role[each.value].name
   policy_arn = aws_iam_policy.aws_load_balancer_policy.arn
 }
@@ -290,11 +290,11 @@ data "aws_eks_cluster" "cluster" {
 
 data "aws_iam_openid_connect_provider" "cluster" {
   for_each = toset(data.aws_eks_clusters.clusters.names)
-  url = data.aws_eks_cluster.cluster[each.value].identity[0].oidc[0].issuer
+  url      = data.aws_eks_cluster.cluster[each.value].identity[0].oidc[0].issuer
 }
 
 resource "helm_release" "aws_load_balancer_controller" {
-  for_each = toset(data.aws_eks_clusters.clusters.names)
+  for_each   = toset(data.aws_eks_clusters.clusters.names)
   repository = "https://aws.github.io/eks-charts"
   name       = "aws-load-balancer-controller"
   chart      = "aws-load-balancer-controller"
