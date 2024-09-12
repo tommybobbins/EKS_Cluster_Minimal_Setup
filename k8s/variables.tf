@@ -25,10 +25,6 @@ variable "common_tags" {
 
 data "aws_caller_identity" "current" {}
 
-locals {
-  name = "ex-${replace(basename(path.cwd), "_", "-")}"
-}
-
 variable "gateway_flavour" {
   description = "Gateway API / Ingress Flavour to use (kong or nginx)"
   type        = string

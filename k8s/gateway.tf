@@ -30,7 +30,6 @@ resource "helm_release" "kong-public" {
     })}"
   ]
   depends_on = [
-    kubectl_manifest.kong-license, // only run the helm chart once the license secret is in place
     aws_iam_role_policy_attachment.aws_load_balancer_controller
   ]
 }
