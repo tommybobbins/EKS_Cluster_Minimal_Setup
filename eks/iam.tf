@@ -8,7 +8,7 @@ data "aws_iam_role" "sso_admin" {
 }
 
 data "aws_iam_roles" "github_oidc" {
-    name_regex = ".*github-oidc-provider.*"
+  name_regex = ".*github-oidc-provider.*"
 }
 
 data "aws_iam_role" "github_oidc" {
@@ -17,6 +17,6 @@ data "aws_iam_role" "github_oidc" {
 }
 
 locals {
-  sso_admin_arn = one([data.aws_iam_role.sso_admin[0].arn])
+  sso_admin_arn   = one([data.aws_iam_role.sso_admin[0].arn])
   github_oidc_arn = one([data.aws_iam_role.github_oidc[0].arn])
 }

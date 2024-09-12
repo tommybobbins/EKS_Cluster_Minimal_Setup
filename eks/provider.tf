@@ -1,3 +1,8 @@
+locals {
+  name = "eks-mvp"
+}
+
+
 provider "aws" {
   region = var.aws_region
   default_tags {

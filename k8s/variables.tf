@@ -35,8 +35,39 @@ variable "gateway_flavour" {
   default     = "kong"
 }
 
+variable "kong_helm_version" {
+  description = "Helm Chart version for KIC"
+  type        = string
+  default     = "0.14.0" #App Version 3.6
+}
+
+variable "kong_replicas" {
+  description = "Min and Max number of pods for KIC"
+  type        = map(any)
+  default = {
+    "min" = 1
+    "max" = 2 # Developer mode
+  }
+}
+
 variable "gateway_api" {
   description = "Use Gateway API or Ingress"
   type        = bool
   default     = true
+}
+
+data "aws_vpcs" "vpc" {
+  tags = {
+    Name = local.name
+  }
+}
+
+data "aws_subnets" "public_subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpcs.vpc.ids[0]]
+  }
+  tags = {
+    Tier = "Public"
+  }
 }

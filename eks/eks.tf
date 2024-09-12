@@ -3,14 +3,14 @@
 ################################################################################
 
 module "eks" {
-  source                             = "terraform-aws-modules/eks/aws"
-  version                            = "~> 20.13.1"
-  cluster_name                       = local.name
-  cluster_version                    = local.cluster_version
-  cluster_endpoint_public_access     = true
+  source                               = "terraform-aws-modules/eks/aws"
+  version                              = "~> 20.13.1"
+  cluster_name                         = local.name
+  cluster_version                      = local.cluster_version
+  cluster_endpoint_public_access       = true
   cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
-  cluster_security_group_name        = local.name
-  cluster_security_group_description = "EKS Cluster security Group"
+  cluster_security_group_name          = local.name
+  cluster_security_group_description   = "EKS Cluster security Group"
 
   cluster_security_group_additional_rules = {
     # ingress_ec2_tcp = {
@@ -105,20 +105,20 @@ module "eks" {
 }
 
 resource "aws_eks_addon" "aws-ebs-csi-driver" {
-  cluster_name = module.eks.cluster_name
-  addon_name   = "aws-ebs-csi-driver"
+  cluster_name                = module.eks.cluster_name
+  addon_name                  = "aws-ebs-csi-driver"
   resolve_conflicts_on_create = "OVERWRITE"
 }
 
 resource "aws_eks_addon" "kube-proxy" {
-  cluster_name = module.eks.cluster_name
-  addon_name   = "kube-proxy"
+  cluster_name                = module.eks.cluster_name
+  addon_name                  = "kube-proxy"
   resolve_conflicts_on_create = "OVERWRITE"
 }
 
 resource "aws_eks_addon" "coredns" {
-  cluster_name = module.eks.cluster_name
-  addon_name   = "coredns"
+  cluster_name                = module.eks.cluster_name
+  addon_name                  = "coredns"
   resolve_conflicts_on_create = "OVERWRITE"
 }
 
@@ -135,7 +135,7 @@ resource "aws_eks_addon" "eks-pod-identity-agent" {
 }
 
 locals {
-  write_roles          = setsubtract(concat([local.github_oidc_arn, local.sso_admin_arn]), [])
+  write_roles = setsubtract(concat([local.github_oidc_arn, local.sso_admin_arn]), [])
 }
 
 resource "aws_eks_access_entry" "write_roles" {
