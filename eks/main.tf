@@ -1,7 +1,6 @@
 data "aws_availability_zones" "available" {}
 
 locals {
-  name            = "eks-mvp"
   cluster_version = var.eks_version
 
   vpc_cidr = var.vpc_cidr
