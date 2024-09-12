@@ -1,29 +1,57 @@
-#enterprise:
-#  enabled: true
-#  # Kong Enterprise license secret name
-#  # This secret must contain a single 'license' key, containing your base64-encoded license data
-#  license_secret: bobbins
-
-image:
-  # Kong Enterprise
-  repository: kong/kong-gateway
-
-
-env:
-  headers: "off"
-  trusted_ips: "0.0.0.0/0,::/0"
-  real_ip_header: "proxy_protocol"
-  proxy_listen: "0.0.0.0:8000 proxy_protocol, 0.0.0.0:8443 ssl proxy_protocol"
-  real_ip_recursive: "on"
-
-# explicitly naming the service account to stop issues with upgrades.
 deployment:
-  serviceAccount:
-    create: true
+  test:
+    enabled: false
 
-podAnnotations:
-  prometheus.io/scrape: "true" # Ask Prometheus to scrape the
-  prometheus.io/port: "8100"   # Kong pods for metrics
+controller:
+  proxy:
+    nameOverride: "{{ .Release.Name }}-gateway-proxy"
+
+  enabled: true
+
+  deployment:
+    kong:
+      enabled: false
+
+  ingressController:
+    enabled: true
+
+    gatewayDiscovery:
+      enabled: true
+      generateAdminApiService: true
+
+  podAnnotations:
+    kuma.io/gateway: enabled
+    # This port must match your Kong admin API port. 8444 is the default.
+    # If you set gateway.admin.tls.containerPort, change these annotations
+    # to use that value.
+    traffic.kuma.io/exclude-outbound-ports: "8444"
+    traffic.sidecar.istio.io/excludeOutboundPorts: "8444"
+    prometheus.io/scrape: "true" # Ask Prometheus to scrape the
+    prometheus.io/port: "8100"   # Kong pods for metrics
+
+
+gateway:
+  enabled: true
+  deployment:
+    kong:
+      enabled: true
+
+  admin:
+    enabled: true
+    type: ClusterIP
+    clusterIP: None
+
+  ingressController:
+    enabled: false
+
+  env:
+    role: traditional
+    database: "off"
+    headers: "off"
+    trusted_ips: "0.0.0.0/0,::/0"
+    real_ip_header: "proxy_protocol"
+    proxy_listen: "0.0.0.0:8000 proxy_protocol, 0.0.0.0:8443 ssl proxy_protocol"
+    real_ip_recursive: "on"
 
 autoscaling:
   enabled: true
@@ -60,20 +88,3 @@ proxy:
     parameters:
     - proxy_protocol
 
-ingressController:  # enable Kong as an Ingress controller
-  ingressClass: kong-public
-  # enabled: true
-  # installCRDs: true
-  resources:
-    limits:
-      cpu: 100m
-    requests:
-      cpu: 50m
-
-resources:
-  limits:
-   cpu: 500m
-   memory: 512Mi
-  requests:
-   cpu: 250m
-   memory: 256Mi
