@@ -24,7 +24,8 @@ env:
   TF_VAR_aws_region: ${{ vars.AWS_REGION }}
 
 jobs:
-  opentf:
+  k8s_deployment:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
@@ -43,6 +44,10 @@ jobs:
       id: update-kubeconfig
       run: aws eks --region eu-west-2 update-kubeconfig --name $(aws eks list-clusters --region=${{ vars.AWS_REGION }} --query 'clusters[]' --output text)
           
+
+  format: 
+    runs-on: ubuntu-latest
+    steps:
     - name: OpenTofu fmt
       id: fmt
       run: tofu fmt -check

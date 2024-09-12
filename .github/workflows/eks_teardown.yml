@@ -1,5 +1,4 @@
 name: eks-teardown
-
 on:
   workflow_dispatch:
     inputs:
@@ -24,16 +23,18 @@ env:
   TF_VAR_aws_region: ${{ vars.AWS_REGION }}
 
 jobs:
-  opentf:
+  eks_teardown:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+
     steps:
     - uses: actions/checkout@v3
     - uses: opentofu/setup-opentofu@v1.0.4
       # with:
       #   tofu_version: 1.6.0
     - name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v3
+      uses: aws-actions/configure-aws-credentials@v
       with:
         role-to-assume: ${{ secrets.ROLE_TO_ASSUME}}
         role-session-name: eksrolesession
