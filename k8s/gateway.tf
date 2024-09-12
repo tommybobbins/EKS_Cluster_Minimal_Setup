@@ -33,3 +33,17 @@ resource "helm_release" "kong-public" {
     aws_iam_role_policy_attachment.aws_load_balancer_controller
   ]
 }
+
+resource "helm_release" "kong_echo_service_gateway_api" {
+  count   = (var.gateway_flavour == "kong" && var.gateway_api == true) ? 1 : 0
+  name    = "kong-echo-service-gateway-api"
+  chart   = "./gateway/kong-echo-service-gateway-api"
+  timeout = 600
+}
+
+resource "helm_release" "kong_echo_service_ingress" {
+  count   = (var.gateway_flavour == "kong" && var.gateway_api == false) ? 1 : 0
+  name    = "kong-echo-service-ingress"
+  chart   = "./gateway/kong-echo-service-ingress"
+  timeout = 600
+}
