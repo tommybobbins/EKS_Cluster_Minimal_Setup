@@ -1,0 +1,79 @@
+#enterprise:
+#  enabled: true
+#  # Kong Enterprise license secret name
+#  # This secret must contain a single 'license' key, containing your base64-encoded license data
+#  license_secret: bobbins
+
+image:
+  # Kong Enterprise
+  repository: kong/kong-gateway
+
+
+env:
+  headers: "off"
+  trusted_ips: "0.0.0.0/0,::/0"
+  real_ip_header: "proxy_protocol"
+  proxy_listen: "0.0.0.0:8000 proxy_protocol, 0.0.0.0:8443 ssl proxy_protocol"
+  real_ip_recursive: "on"
+
+# explicitly naming the service account to stop issues with upgrades.
+deployment:
+  serviceAccount:
+    create: true
+
+podAnnotations:
+  prometheus.io/scrape: "true" # Ask Prometheus to scrape the
+  prometheus.io/port: "8100"   # Kong pods for metrics
+
+autoscaling:
+  enabled: true
+  minReplicas: ${kong_min_replicas}
+  maxReplicas: ${kong_max_replicas}
+  # targetCPUUtilizationPercentage only used if the cluster doesn't support autoscaling/v2beta
+  targetCPUUtilizationPercentage:
+  # Otherwise for clusters that do support autoscaling/v2beta, use metrics
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+proxy:
+  enabled: true
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: ${cert_arn}
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: "ELBSecurityPolicy-TLS13-1-2-Ext1-2021-06"
+    service.beta.kubernetes.io/aws-load-balancer-subnets: "${public_subnets}"
+
+  tls:
+    enabled: true
+    servicePort: 443
+    overrideServiceTargetPort: 8000
+    containerPort: 8443
+    parameters:
+    - proxy_protocol
+
+ingressController:  # enable Kong as an Ingress controller
+  ingressClass: kong-public
+  # enabled: true
+  # installCRDs: true
+  resources:
+    limits:
+      cpu: 100m
+    requests:
+      cpu: 50m
+
+resources:
+  limits:
+   cpu: 500m
+   memory: 512Mi
+  requests:
+   cpu: 250m
+   memory: 256Mi

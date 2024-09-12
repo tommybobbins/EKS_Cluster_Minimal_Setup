@@ -1,3 +1,7 @@
+variable "wildcard_domain_name" {
+  description = "Wildcard SSL certificate domain name"
+  default     = "*.chegwin.org"
+}
 
 variable "aws_region" {
   description = "AWS Region"
@@ -66,4 +70,9 @@ data "aws_subnets" "public_subnets" {
   tags = {
     Tier = "Public"
   }
+}
+
+data "aws_acm_certificate" "ssl_cert" {
+  domain   = var.wildcard_domain_name
+  statuses = ["ISSUED"]
 }

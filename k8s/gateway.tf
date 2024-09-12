@@ -22,7 +22,7 @@ resource "helm_release" "kong-public" {
   version          = var.kong_helm_version
   timeout          = 600
   values = [
-    "${templatefile("./gateway/kong-public-values.yaml", {
+    "${templatefile("./gateway/kong-ingress/kong-public-values.yaml", {
       cert_arn          = data.aws_acm_certificate.ssl_cert.arn
       kong_min_replicas = lookup(var.kong_replicas, "min")
       kong_max_replicas = lookup(var.kong_replicas, "max")
