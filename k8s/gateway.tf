@@ -16,7 +16,7 @@ resource "helm_release" "kong-public" {
   count            = var.gateway_flavour == "kong" ? 1 : 0
   name             = "kong-public"
   repository       = "https://charts.konghq.com"
-  chart            = "kong/ingress"
+  chart            = "ingress"
   create_namespace = true
   namespace        = "kong-public"
   version          = var.kong_helm_version
