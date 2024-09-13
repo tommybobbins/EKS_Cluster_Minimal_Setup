@@ -8,11 +8,22 @@ resource "helm_release" "kong-gateway" {
 
 resource "helm_release" "nginx-gateway" {
   count   = var.gateway_flavour == "nginx" ? 1 : 0
-  name    = "nginx-gateway"
-  chart   = "./gateway/nginx-gateway"
+  name    = "nginx-gateway-fabric"
+  namespace = "nginx-gateway"
   create_namespace = true
+  repository = "./gateway/nginx-gateway-fabric"
+  chart   = "nginx-gateway-fabric"
   timeout = 600
+  values = [
+     "${templatefile("./gateway/nginx-gateway-fabric/values.yaml", {
+      cert_arn          = data.aws_acm_certificate.ssl_cert.arn
+      public_subnets    = join(",", sort(data.aws_subnets.public_subnets.ids))
+      })}"
+  ]
 }
+
+
+# helm install ngf oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
 
 resource "helm_release" "kong-public" {
   count            = var.gateway_flavour == "kong" ? 1 : 0
