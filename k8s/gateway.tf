@@ -1,4 +1,4 @@
-resource "helm_release" "kong-gateway" {
+resource "helm_release" "kong_gateway" {
   count   = var.gateway_flavour == "kong" ? 1 : 0
   name    = "kong-gateway"
   create_namespace = true
@@ -6,13 +6,20 @@ resource "helm_release" "kong-gateway" {
   timeout = 600
 }
 
-resource "helm_release" "nginx-gateway" {
+resource "helm_release" "gatewayapi" {
+  count   = var.gateway_flavour == "nginx" ? 1 : 0
+  name    = "standard-gatewayapi"
+  create_namespace = true
+  chart   = "./gateway/standard-gatewayapi"
+  timeout = 600
+}
+
+resource "helm_release" "nginx_gateway_fabric" {
   count   = var.gateway_flavour == "nginx" ? 1 : 0
   name    = "nginx-gateway-fabric"
   namespace = "nginx-gateway"
   create_namespace = true
-  repository = "./gateway/nginx-gateway-fabric"
-  chart   = "nginx-gateway-fabric"
+  chart   = "./gateway/nginx-gateway-fabric"
   timeout = 600
   values = [
      "${templatefile("./gateway/nginx-gateway-fabric/values.yaml", {
@@ -20,6 +27,7 @@ resource "helm_release" "nginx-gateway" {
       public_subnets    = join(",", sort(data.aws_subnets.public_subnets.ids))
       })}"
   ]
+  depends_on = [ helm_release.gatewayapi ]
 }
 
 
