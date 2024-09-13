@@ -41,6 +41,7 @@ resource "helm_release" "kong_echo_service_gateway_api" {
   name    = "kong-echo-service-gateway-api"
   chart   = "./gateway/kong-echo-service-gateway-api"
   timeout = 600
+  depends_on = [helm_release.kong-public]
 }
 
 resource "helm_release" "kong_echo_service_ingress" {
@@ -48,4 +49,5 @@ resource "helm_release" "kong_echo_service_ingress" {
   name    = "kong-echo-service-ingress"
   chart   = "./gateway/kong-echo-service-ingress"
   timeout = 600
+  depends_on = [helm_release.kong-public]
 }
