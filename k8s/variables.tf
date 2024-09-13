@@ -38,7 +38,7 @@ variable "gateway_flavour" {
 variable "kong_helm_version" {
   description = "Helm Chart version for KIC"
   type        = string
-  default     = "0.14.0" #App Version 3.6
+  default     = "2.41.1" #App Version 3.6
 }
 
 variable "kong_replicas" {
