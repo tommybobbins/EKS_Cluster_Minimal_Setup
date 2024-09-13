@@ -1,7 +1,7 @@
 resource "helm_release" "kong-gateway" {
   count   = var.gateway_flavour == "kong" ? 1 : 0
   name    = "kong-gateway"
-  namespace = "echo-service-kg"
+  create_namespace = true
   chart   = "./gateway/kong-gateway"
   timeout = 600
 }
@@ -10,7 +10,7 @@ resource "helm_release" "nginx-gateway" {
   count   = var.gateway_flavour == "nginx" ? 1 : 0
   name    = "nginx-gateway"
   chart   = "./gateway/nginx-gateway"
-  namespace = "echo-service-ng"
+  create_namespace = true
   timeout = 600
 }
 
@@ -40,6 +40,7 @@ resource "helm_release" "kong_echo_service_gateway_api" {
   count   = (var.gateway_flavour == "kong" && var.gateway_api == true) ? 1 : 0
   name    = "kong-echo-service-gateway-api"
   chart   = "./gateway/kong-echo-service-gateway-api"
+  create_namespace = true
   timeout = 600
   depends_on = [helm_release.kong-public]
 }
@@ -48,6 +49,7 @@ resource "helm_release" "kong_echo_service_ingress" {
   count   = (var.gateway_flavour == "kong" && var.gateway_api == false) ? 1 : 0
   name    = "kong-echo-service-ingress"
   chart   = "./gateway/kong-echo-service-ingress"
+  create_namespace = true
   timeout = 600
   depends_on = [helm_release.kong-public]
 }
