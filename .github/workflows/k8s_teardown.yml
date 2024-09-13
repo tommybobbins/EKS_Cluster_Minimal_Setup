@@ -25,7 +25,7 @@ env:
 
 jobs:
   k8s_teardown:
-    timeout-minutes: 5
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
