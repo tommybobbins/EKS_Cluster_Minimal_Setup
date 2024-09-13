@@ -34,7 +34,7 @@ jobs:
       # with:
       #   tofu_version: 1.6.0
     - name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v
+      uses: aws-actions/configure-aws-credentials@v3
       with:
         role-to-assume: ${{ secrets.ROLE_TO_ASSUME}}
         role-session-name: eksrolesession
