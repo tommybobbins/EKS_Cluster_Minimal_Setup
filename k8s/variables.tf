@@ -53,7 +53,7 @@ variable "kong_replicas" {
 variable "gateway_api" {
   description = "Use Gateway API or Ingress"
   type        = bool
-  default     = false
+  default     = true
 }
 
 data "aws_vpcs" "vpc" {

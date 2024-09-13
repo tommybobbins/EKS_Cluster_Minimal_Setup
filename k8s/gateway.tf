@@ -74,3 +74,13 @@ resource "helm_release" "kong_echo_service_ingress" {
   timeout = 600
   depends_on = [helm_release.kong-public]
 }
+
+resource "helm_release" "nginx_echo_service_gateway_api" {
+  count   = (var.gateway_flavour == "nginx" && var.gateway_api == true) ? 1 : 0
+  name    ="nginx-echo-service-gateway-api"
+  chart   = "./gateway/nginx-echo-service-gateway-api"
+  namespace = "echo-service"
+  create_namespace = true
+  timeout = 600
+  depends_on = [helm_release.nginx_gateway_fabric]
+}
