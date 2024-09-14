@@ -15,3 +15,7 @@ Bootstrap scripts to add an OIDC deployment role, then use github actions to aut
 
 - Options to install from the command line instead of github actions.
 - Ingress and Gateway API options.
+
+````
+aws eks --region eu-west-2 update-kubeconfig --name $(aws eks list-clusters --region=eu-west-2 --query 'clusters[]' --output text)
+````
