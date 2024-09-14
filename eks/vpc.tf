@@ -25,7 +25,7 @@ module "vpc" {
 
   public_subnet_tags = {
     "kubernetes.io/role/elb" = 1
-    "Tier" = "Public"
+    "Tier"                   = "Public"
   }
 
   private_subnet_tags = {
