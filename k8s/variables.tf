@@ -32,7 +32,7 @@ data "aws_caller_identity" "current" {}
 variable "gateway_flavour" {
   description = "Gateway API / Ingress Flavour to use (kong or nginx)"
   type        = string
-  default     = "nginx"
+  default     = "kong"
 }
 
 variable "kong_helm_version" {
