@@ -168,10 +168,10 @@ service:
       targetPort: 80
       protocol: TCP
       name: http
-    - port: 443
-      targetPort: 443
-      protocol: TCP
-      name: https
+#    - port: 443
+#      targetPort: 443
+#      protocol: TCP
+#      name: https
 
 metrics:
   # -- Enable exposing metrics in the Prometheus format.
