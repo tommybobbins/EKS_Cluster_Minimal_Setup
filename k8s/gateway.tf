@@ -16,7 +16,7 @@ resource "helm_release" "gatewayapi" {
 
 resource "helm_release" "nginx_gateway_fabric" {
   count   = var.gateway_flavour == "nginx" ? 1 : 0
-  name    = "nginx-gateway-fabric"
+ name    = "nginx-gateway-fabric"
   namespace = "nginx-gateway"
   create_namespace = true
   chart   = "./gateway/nginx-gateway-fabric"
@@ -76,7 +76,7 @@ resource "helm_release" "kong_echo_service_ingress" {
 }
 
 resource "helm_release" "nginx_echo_service_gateway_api" {
-  count   = (var.gateway_flavour == "nginx" && var.gateway_api == true) ? 1 : 0
+  count   = (var.gateway_flavour == "nginx")  ? 1 : 0
   name    ="nginx-echo-service-gateway-api"
   chart   = "./gateway/nginx-echo-service-gateway-api"
   namespace = "echo-service"
