@@ -1,5 +1,10 @@
 # EKS_Cluster_Minimal_Setup (WIP) - work in progress.
-Worked through EKS example for Creating a VPC, EKS cluster and Adding Ingress or Gateway API
+Worked through EKS example for Creating a VPC, EKS cluster and Adding Ingress or Gateway API.
+
+## Repository Directory structure
+- ````./bootstrap```` contains tofu scripts designed to create a github oidc user to allow github actions to work, state bucket and DDB table.
+- ````./eks```` contains tofu scripts to create an EKS cluster inside a VPC.
+- ````./k8s```` contains tofu scripts/helm charts to deploy a Kong or Nginx Gateway API network load balancer in EKS.
 
 
 ## Bootstrapping
