@@ -20,7 +20,7 @@ $ tofu apply
 Add a wildcard certificate using ACM:
 ![Wildcard dot chegwin dot org certificate in AWS ACM](images/acm.png "*.chegwin.org certificate")
 
-Either create Github Actions for the Project or add terraform.tfvars in both the eks and k8s directories
+Either create Github Actions for the Project or add ````terraform.tfvars```` in both the eks and k8s directories
 
 #### Github actions
 
@@ -37,7 +37,7 @@ Add ROLE_TO_ASSUME as a secret:
 
 #### Deploying from the CLI
 
-Set the following in a terraform.tfvars file in both the eks and k8s directories:
+Set the following in a ````terraform.tfvars```` file in both the eks and k8s directories:
 
 ````
 # Set as Variable
