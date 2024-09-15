@@ -16,6 +16,9 @@ $ tofu apply
 ````
 
 Either create Github Actions for the Project or add terraform.tfvars in both the eks and k8s directories
+
+
+
 ````
 # Set as Variable
 AWS_REGION="eu-west-2"
@@ -99,3 +102,12 @@ Running on Pod echo-57ffc6dfcf-8nmdm.
 In namespace default.
 With IP address 10.123.141.223.
 ````
+
+### References
+
+Kong + Terraform/IaC + Helm + AWS EKS documentation is sparse. I'd love to see more recipes for full installations including annotations.
+
+[ Kubernetes Gateway API Reference Docs](https://gateway-api.sigs.k8s.io/)
+[ Nginx Gateway Fabric Installation ](https://docs.nginx.com/nginx-gateway-fabric/installation/installing-ngf/helm/)
+[ Kong Gateway API Installation](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/helm/)
+[ Kong KIC EKS ](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/cloud/eks/)
