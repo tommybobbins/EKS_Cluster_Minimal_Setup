@@ -15,10 +15,26 @@ $ tofu plan
 $ tofu apply
 ````
 
+### Optional Add ACM (TLS) Certificate
+
+Add a wildcard certificate using ACM:
+![Wildcard dot chegwin dot org certificate in AWS ACM](images/acm.png "*.chegwin.org certificate")
+
 Either create Github Actions for the Project or add terraform.tfvars in both the eks and k8s directories
 
+#### Github actions
+
+![Github actions](images/github_actions.png "Github actions overview")
+Ensure to add AWS_REGION and TF_VAR_STATE_BUCKET variables:
+![Github actions environment variables](images/variables.png "Github actions environments")
+
+Ensure to add ROLE_TO_ASSUME is set as a secret:
+![Github actions environment variables](images/secrets.png "Github actions environments")
 
 
+#### Deploying from the CLI
+
+Set the following in a terraform.tfvars file
 ````
 # Set as Variable
 AWS_REGION="eu-west-2"
