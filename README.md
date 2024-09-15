@@ -1,7 +1,16 @@
-# EKS_Cluster_Minimal_Setup (WIP) - work in progress.
+
+# EKS Cluster Minimal Setup
 Worked through EKS example for Creating a VPC, EKS cluster and Adding Ingress or Gateway API.
 
+## Features
+
+- **Automated EKS Cluster Creation**: The repository includes Terraform configuration to define the necessary resources for setting up an EKS cluster, including worker nodes (EC2 instances), VPC, security groups, IAM roles, and Gateway API via a Network Load Balancer.
+- **GitHub Actions Integration**: GitHub Actions workflows (`eks_deployment.yml` and `k8s_deployment.yml`) are included to automate the process of creating the EKS cluster and Ingress.
+- **Network Load Balancer**: The repository includes a `k8s/gateway.tf` file that provisions a Network Load Balancer for the EKS cluster, enabling load balancing capabilities for services like Kong or NGINX Ingress Controller.
+- **Infrastructure as Code (IaC)**: By using Terraform configurations and integrating with GitHub Actions, the repository follows the principles of Infrastructure as Code (IaC), enabling version control, reproducibility, and easier collaboration when managing the EKS cluster infrastructure.
+
 ## Repository Directory structure
+
 - ````./bootstrap```` contains tofu scripts designed to create a github oidc user to allow github actions to work, state bucket and DDB table.
 - ````./eks```` contains tofu scripts to create an EKS cluster inside a VPC.
 - ````./k8s```` contains tofu scripts/helm charts to deploy a Kong or Nginx Gateway API network load balancer in EKS.
@@ -155,3 +164,11 @@ Kong + Terraform/IaC + Helm + AWS EKS documentation is sparse. I'd love to see m
 - [ Nginx Gateway Fabric Installation ](https://docs.nginx.com/nginx-gateway-fabric/installation/installing-ngf/helm/)
 - [ Kong Gateway API Installation](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/helm/)
 - [ Kong KIC EKS ](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/cloud/eks/)
+
+## Contributing
+
+Contributions to this repository are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
+## License
+
+This repository is licensed under the [GNU General Public License v3.0](LICENSE).
