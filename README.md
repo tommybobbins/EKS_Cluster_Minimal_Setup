@@ -1,19 +1,51 @@
 # EKS_Cluster_Minimal_Setup (WIP) - work in progress.
 Worked through EKS example for Creating a VPC, EKS cluster and Adding Ingress or Gateway API
 
+
+## Bootstrapping
+
+Login to AWS after setting the access key and secret access key. Use the bootstrap directory to create the state bucket,  DynamoDB locking table and Github oidc user to be used to deploy the rest of the terraform.
+
 ````
+$ export AWS_ACCESS_KEY_ID=""
+$ export AWS_SECRET_ACCESS_KEY=""
+$ cd bootstrap
 $ tofu init
 $ tofu plan
 $ tofu apply
 ````
 
+Either create Github Actions for the Project or add terraform.tfvars in both the eks and k8s directories
+````
+# Set as Variable
+AWS_REGION="eu-west-2"
+TF_VAR_STATE_BUCKET="bucket_name_created_in_the_bootstrap_process"
+
+# Set as Secret
+ROLE_TO_ASSUME=arn:aws:iam::0123456789:role/github-oidc-provider-eksmvp-dev
+````
+## Infrastructure Deployment
+
+To deploy the infrastructure parts of the stack including the network load balancer, either use the github action ````eks-deployment```` or deploy using the CLI and use ````terraform.tfvars```` with environment variables.
+
+### Example terraform.tfvars
+
+If deploying using the CLI, create ````terraform.tfvars```` in both the eks and k8s directories.  This file may look like the following:
+
+````
+state_bucket = "eksmvp-dev20240123456789123450000001"
+aws_region = "eu-west-2"
+````
+
+## Kubernetes Deployment 
+
+To deploy the kubernetes parts of the stack including the network load balancer, either use the github actions or terraform.tfvars and environment variables to login to AWS.
+
+
 ## Goal 
 
 Bootstrap scripts to add an OIDC deployment role, then use github actions to auto-deploy an EKS cluster in AWS.
 
-## Things to think about (notes to self)
-
-- Options to install from the command line instead of github actions.
 - Ingress and Gateway API options.
 
 ````
