@@ -24,17 +24,21 @@ Either create Github Actions for the Project or add terraform.tfvars in both the
 
 #### Github actions
 
+Fork the repo, then check the github actions exist:
+
 ![Github actions](images/github_actions.png "Github actions overview")
-Ensure to add AWS_REGION and TF_VAR_STATE_BUCKET variables:
+
+Add AWS_REGION and TF_VAR_STATE_BUCKET variables:
 ![Github actions environment variables](images/variables.png "Github actions environments")
 
-Ensure to add ROLE_TO_ASSUME is set as a secret:
+Add ROLE_TO_ASSUME as a secret:
 ![Github actions environment variables](images/secrets.png "Github actions environments")
 
 
 #### Deploying from the CLI
 
-Set the following in a terraform.tfvars file
+Set the following in a terraform.tfvars file in both the eks and k8s directories:
+
 ````
 # Set as Variable
 AWS_REGION="eu-west-2"
@@ -45,7 +49,31 @@ ROLE_TO_ASSUME=arn:aws:iam::0123456789:role/github-oidc-provider-eksmvp-dev
 ````
 ## Infrastructure Deployment
 
-To deploy the infrastructure parts of the stack including the network load balancer, either use the github action ````eks-deployment```` or deploy using the CLI and use ````terraform.tfvars```` with environment variables.
+To deploy the infrastructure parts of the stack, either use the github action ````eks-deployment```` or deploy using the CLI and use ````terraform.tfvars```` with environment variables.
+
+````
+$ cd eks
+$ export AWS_ACCESS_KEY_ID=""
+$ export AWS_SECRET_ACCESS_KEY=""
+$ cd bootstrap
+$ tofu init
+$ tofu plan
+$ tofu apply
+````
+
+## Kubernetes Deployment
+
+Once the infrastructure part is complete, the kubernetes stack can be added (including the network load balancer), either use the github action ````k8s-deployment```` or deploy using the CLI and use ````terraform.tfvars```` with environment variables.
+
+````
+$ cd ../k8s
+$ export AWS_ACCESS_KEY_ID=""
+$ export AWS_SECRET_ACCESS_KEY=""
+$ cd bootstrap
+$ tofu init
+$ tofu plan
+$ tofu apply
+````
 
 ### Example terraform.tfvars
 
