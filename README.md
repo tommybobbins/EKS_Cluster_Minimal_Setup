@@ -156,7 +156,7 @@ With IP address 10.123.141.223.
 
 Kong + Terraform/IaC + Helm + AWS EKS documentation is sparse. I'd love to see more recipes for full installations including annotations.
 
-[ Kubernetes Gateway API Reference Docs](https://gateway-api.sigs.k8s.io/)
-[ Nginx Gateway Fabric Installation ](https://docs.nginx.com/nginx-gateway-fabric/installation/installing-ngf/helm/)
-[ Kong Gateway API Installation](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/helm/)
-[ Kong KIC EKS ](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/cloud/eks/)
+- [ Kubernetes Gateway API Reference Docs](https://gateway-api.sigs.k8s.io/)
+- [ Nginx Gateway Fabric Installation ](https://docs.nginx.com/nginx-gateway-fabric/installation/installing-ngf/helm/)
+- [ Kong Gateway API Installation](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/helm/)
+- [ Kong KIC EKS ](https://docs.konghq.com/kubernetes-ingress-controller/latest/install/cloud/eks/)
