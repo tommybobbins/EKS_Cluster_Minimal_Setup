@@ -54,8 +54,10 @@ aws eks --region eu-west-2 update-kubeconfig --name $(aws eks list-clusters --re
 
 ## Outputs
 
+### NGINX Gateway API
+
 ````
-curl http://k8s-nginxgat-nginxgat-5d8a903d87-d761397e23239b9d.elb.eu-west-2.amazonaws.com -H "Host: cafe.chegwin.org"  -k
+$ curl http://k8s-nginxgat-nginxgat-5d8a903d87-d761397e23239b9d.elb.eu-west-2.amazonaws.com -H "Host: cafe.chegwin.org"  -k
 Server address: 10.123.156.92:8080
 Server name: coffee-56b44d4c55-c6chn
 Date: 14/Sep/2024:19:06:00 +0000
@@ -63,12 +65,14 @@ URI: /
 Request ID: ea91727de9f12e1afcefd3ba4c191480
 
 
-curl https://k8s-nginxgat-nginxgat-5d8a903d87-d761397e23239b9d.elb.eu-west-2.amazonaws.com -H "Host: cafe.chegwin.org"  -k
+$ curl https://k8s-nginxgat-nginxgat-5d8a903d87-d761397e23239b9d.elb.eu-west-2.amazonaws.com -H "Host: cafe.chegwin.org"  -k
 Server address: 10.123.156.92:8080
 Server name: coffee-56b44d4c55-c6chn
 Date: 14/Sep/2024:19:05:23 +0000
 URI: /
 Request ID: 5812678db94e2f9225e67fab47172509
+
+$ kubectl get pods, svc, gateway, httproute -n nginx-gateway
 
 NAME                                        READY   STATUS    RESTARTS   AGE
 pod/nginx-gateway-fabric-57d77c8ccf-ptglg   2/2     Running   0          8m16s
@@ -83,3 +87,15 @@ gateway.gateway.networking.k8s.io/cafe   nginx   k8s-nginxgat-nginxgat-5d8a903d8
 
 NAME                                         HOSTNAMES              AGE
 httproute.gateway.networking.k8s.io/coffee   ["cafe.chegwin.org"]   21m
+
+````
+
+### Kong Gateway API
+
+````
+$ curl https://k8s-kongpubl-kongpubl-d214748978-774b37fddc808874.elb.eu-west-2.amazonaws.com/echo -k   
+Welcome, you are connected to node ip-10-123-134-216.eu-west-2.compute.internal.
+Running on Pod echo-57ffc6dfcf-8nmdm.
+In namespace default.
+With IP address 10.123.141.223.
+````
