@@ -8,6 +8,7 @@ Worked through EKS example for Creating a VPC, EKS cluster and Adding Ingress or
 - **GitHub Actions Integration**: GitHub Actions workflows (`eks_deployment.yml` and `k8s_deployment.yml`) are included to automate the process of creating the EKS cluster and Ingress.
 - **Network Load Balancer**: The repository includes a `k8s/gateway.tf` file that provisions a Network Load Balancer for the EKS cluster, enabling load balancing capabilities for services like Kong or NGINX Ingress Controller.
 - **Infrastructure as Code (IaC)**: By using Terraform configurations and integrating with GitHub Actions, the repository follows the principles of Infrastructure as Code (IaC), enabling version control, reproducibility, and easier collaboration when managing the EKS cluster infrastructure.
+- **Choice of Gateway API**: Both Kong and Nginx gateway APIs have been included. This can be configured via the `k8s/variables.tf` files.
 
 ## Repository Directory structure
 
