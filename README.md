@@ -94,12 +94,7 @@ aws_region = "eu-west-2"
 To deploy the kubernetes parts of the stack including the network load balancer, either use the github actions or terraform.tfvars and environment variables to login to AWS.
 
 
-## Goal 
-
-Bootstrap scripts to add an OIDC deployment role, then use github actions to auto-deploy an EKS cluster in AWS.
-
-- Ingress and Gateway API options.
-
+### Interacting with the EKS cluster using the CLI
 ````
 aws eks --region eu-west-2 update-kubeconfig --name $(aws eks list-clusters --region=eu-west-2 --query 'clusters[]' --output text)
 ````
