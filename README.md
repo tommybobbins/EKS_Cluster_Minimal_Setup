@@ -10,6 +10,9 @@ Worked through EKS example for Creating a VPC, EKS cluster and Adding Ingress or
 - **Infrastructure as Code (IaC)**: By using Terraform configurations and integrating with GitHub Actions, the repository follows the principles of Infrastructure as Code (IaC), enabling version control, reproducibility, and easier collaboration when managing the EKS cluster infrastructure.
 - **Choice of Gateway API**: Both Kong and Nginx gateway APIs have been included. This can be configured via the `k8s/variables.tf` files.
 
+![Deployed Stack](images/k8s_resources.png "EKS + k8s stack with Kong load balancer (replace nginx for kong if chosen)")
+
+
 ## Repository Directory structure
 
 - ````./bootstrap```` contains tofu scripts designed to create a github oidc user to allow github actions to work, state bucket and DDB table.
@@ -98,11 +101,6 @@ If deploying using the CLI, create ````terraform.tfvars```` in both the eks and 
 state_bucket = "eksmvp-dev20240123456789123450000001"
 aws_region = "eu-west-2"
 ````
-
-## Kubernetes Deployment 
-
-To deploy the kubernetes parts of the stack including the network load balancer, either use the github actions or terraform.tfvars and environment variables to login to AWS.
-
 
 ### Interacting with the EKS cluster using the CLI
 ````
