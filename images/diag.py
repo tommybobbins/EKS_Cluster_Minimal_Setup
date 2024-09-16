@@ -16,7 +16,6 @@ from diagrams.onprem.network import Kong, Nginx
 
 diag_attr = {
     "fontsize": "20",
-    "bgcolor": "#000"
 }
 
 vpc_attr = {
