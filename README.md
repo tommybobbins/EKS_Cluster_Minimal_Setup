@@ -79,7 +79,7 @@ $ tofu plan
 $ tofu apply
 ````
 
-Note that the `cluster_endpoint_public_access_cidrs` inside `eks/eks.tf` should be configured for the IPs which are allowed to manage the cluster via kubectl/API. Because github uses more than 100 IPs, and only 100 allowed CIDRs being allowed for this parameter, it would be better to use github runners.
+Note that the `cluster_endpoint_public_access_cidrs` inside `eks/eks.tf` should be configured for the IPs which are allowed to manage the cluster via kubectl/API. Because github actions uses more than 100 IPs, and only 100 CIDRs are allowedin the allowlist, it would be better to use github runners.
 
 
 ## Kubernetes Deployment
