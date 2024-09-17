@@ -94,8 +94,8 @@ with Diagram("EKS Ingress", graph_attr=diag_attr, filename="k8s_resources", show
             echo_pod2 = Pod("echo-abc456")
           echo_svc = SVC("echo")
           echo_ing = Ing("HTTPRoute: echo")
-          echo_svc >> Edge(penwidth="2") >> [ echo_pod1, echo_pod2 ] 
-          echo_ing >> Edge(pendwidth="2") >> echo_svc 
+          echo_svc >> Edge(penwidth="2",minlength="0") >> [ echo_pod1, echo_pod2 ] 
+          echo_ing >> Edge(penwidth="2") >> echo_svc 
           echo_dep = Deploy("echo")
           echo_dep - [ echo_pod1, echo_pod2 ] 
           # common
@@ -105,11 +105,11 @@ with Diagram("EKS Ingress", graph_attr=diag_attr, filename="k8s_resources", show
             ohce_pod2 = Pod("ohce-abc456")
           ohce_svc = SVC("ohce")
           ohce_ing = Ing("HTTPRoute: ohce")
-          ohce_svc >> Edge(pendwidth="2") >> [ ohce_pod1, ohce_pod2 ] 
-          ohce_ing >> Edge(pendwidth="2") >> ohce_svc 
+          ohce_svc >> Edge(penwidth="2", minlength="0") >> [ ohce_pod1, ohce_pod2 ] 
+          ohce_ing >> Edge(penwidth="2") >> ohce_svc 
           ohce_dep = Deploy("ohce")
           ohce_dep - [ ohce_pod1, ohce_pod2 ] 
           # common
   with Cluster("Internet", graph_attr=internet_attr):
     internet=InternetAlt1("0.0.0.0/0")
-    [ echo_ing, ohce_ing ] >> Edge(minlen="2",pendwidth="2") >> kong_public >> Edge(minlen="2",penwidth="2") >> nlb_pub >> internet
+    [ echo_ing, ohce_ing ] << Edge(minlen="2",penwidth="2") << kong_public << Edge(minlen="2",penwidth="2") << nlb_pub << Edge(penwidth="2") << internet
