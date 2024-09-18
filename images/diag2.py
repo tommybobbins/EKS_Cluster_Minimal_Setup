@@ -31,12 +31,12 @@ internet_attr = {
 
 public_attr = {
     "fontsize": "20",
-    "bgcolor": "#bfb"
+    "bgcolor": "#bdb"
 }
 
 priv_attr = {
     "fontsize": "20",
-    "bgcolor": "#fbb"
+    "bgcolor": "#bbd"
 }
 
 ns1_attr = {
