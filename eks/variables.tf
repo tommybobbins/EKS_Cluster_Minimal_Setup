@@ -1,7 +1,7 @@
 variable "instance_types" {
   description = "EKS Instance types"
   type        = list(any)
-  default     = ["t3a.medium","t3a.small", "t3a.large"]
+  default     = ["t3a.small","t3a.medium", "t3a.large"]
 }
 
 variable "eks_default_nodegroup_types" {
@@ -22,7 +22,7 @@ variable "vpc_cidr" {
 
 variable "eks_size" {
   description = "EKS Size (min,max,desired)"
-  default     = ["1", "4", "2"]
+  default     = ["1", "4", "3"]
 }
 
 variable "aws_region" {
