@@ -63,6 +63,11 @@ resource "helm_release" "kong_echo_service_gateway_api" {
   create_namespace = true
   timeout          = 600
   depends_on       = [helm_release.kong-public]
+  values = [ 
+    "${templatefile("./gateway/kong-echo-service-gateway-api/values.yaml", {
+    fqdn = "echo.chegwin.org"
+    })}"
+   ]
 }
 
 resource "helm_release" "kong_ohce_service_gateway_api" {
@@ -73,6 +78,11 @@ resource "helm_release" "kong_ohce_service_gateway_api" {
   create_namespace = true
   timeout          = 600
   depends_on       = [helm_release.kong-public]
+  values = [ 
+    "${templatefile("./gateway/kong-ohce-service-gateway-api/values.yaml", {
+    fqdn = "ohce.chegwin.org"
+    })}"
+   ]
 }
 
 resource "helm_release" "kong_echo_service_ingress" {
