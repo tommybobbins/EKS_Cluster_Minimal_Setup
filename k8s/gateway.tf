@@ -66,6 +66,7 @@ resource "helm_release" "kong_echo_service_gateway_api" {
   values = [ 
     "${templatefile("./gateway/kong-echo-service-gateway-api/values.yaml", {
     fqdn = "echo.chegwin.org"
+    shortname = "echo"
     })}"
    ]
 }
@@ -73,14 +74,15 @@ resource "helm_release" "kong_echo_service_gateway_api" {
 resource "helm_release" "kong_ohce_service_gateway_api" {
   count            = (var.gateway_flavour == "kong" && var.gateway_api == true) ? 1 : 0
   name             = "kong-ohce-service-gateway-api"
-  chart            = "./gateway/kong-ohce-service-gateway-api"
+  chart            = "./gateway/kong-echo-service-gateway-api"
   namespace        = "ohce-service"
   create_namespace = true
   timeout          = 600
   depends_on       = [helm_release.kong-public]
   values = [ 
-    "${templatefile("./gateway/kong-ohce-service-gateway-api/values.yaml", {
+    "${templatefile("./gateway/kong-echo-service-gateway-api/values.yaml", {
     fqdn = "ohce.chegwin.org"
+    shortname = "ohce"
     })}"
    ]
 }
