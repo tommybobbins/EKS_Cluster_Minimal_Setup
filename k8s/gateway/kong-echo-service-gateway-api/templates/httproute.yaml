@@ -5,14 +5,12 @@ metadata:
   annotations:
     konghq.com/strip-path: 'true'
 spec:
+  hostnames:
+    -  {{ .Values.ingress.hosts.host }}
   parentRefs:
   - name: kong
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /echo
-    backendRefs:
+  - backendRefs:
     - name: echo
       kind: Service
       port: 1027
