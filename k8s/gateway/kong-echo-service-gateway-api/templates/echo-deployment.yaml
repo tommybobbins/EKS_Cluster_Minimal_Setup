@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: echo
-  name: echo
+    app: {{ .Values.shortname }}
+  name: {{ .Values.shortname }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: echo
+      app: {{ .Values.shortname }}
   strategy: {}
   template:
     metadata:
       labels:
-        app: echo
+        app: {{ .Values.shortname }}
     spec:
       containers:
         - image: kong/go-echo:latest
-          name: echo
+          name: {{ .Values.shortname }}
           ports:
             - containerPort: 1025
             - containerPort: 1026

@@ -4,7 +4,6 @@ metadata:
   name: {{ .Chart.Name }}
   annotations:
     konghq.com/strip-path: 'true'
-    #bobbins: {{ (index .Values.ingress.hosts 0).host | quote }}
 spec:
   hostnames:
     -  {{ (index .Values.ingress.hosts 0).host | quote }}
@@ -12,6 +11,6 @@ spec:
   - name: kong
   rules:
   - backendRefs:
-    - name: echo
+    - name: {{ .Values.shortname }}
       kind: Service
       port: 1027
