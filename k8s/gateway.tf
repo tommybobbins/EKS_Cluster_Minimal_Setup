@@ -4,6 +4,9 @@ resource "helm_release" "kong_gateway" {
   create_namespace = true
   chart            = "./gateway/kong-gateway"
   timeout          = 600
+  depends_on = [
+    aws_iam_role_policy_attachment.aws_load_balancer_controller
+  ]
 }
 
 resource "helm_release" "gatewayapi" {
@@ -51,7 +54,7 @@ resource "helm_release" "kong-public" {
     })}"
   ]
   depends_on = [
-    aws_iam_role_policy_attachment.aws_load_balancer_controller
+    helm_release.kong_gateway
   ]
 }
 
