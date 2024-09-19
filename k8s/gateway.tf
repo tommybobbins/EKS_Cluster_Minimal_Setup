@@ -66,12 +66,12 @@ resource "helm_release" "kong_echo_service_gateway_api" {
   create_namespace = true
   timeout          = 600
   depends_on       = [helm_release.kong-public]
-  values = [ 
+  values = [
     "${templatefile("./gateway/kong-echo-service-gateway-api/values.yaml", {
-    fqdn = "echo.chegwin.org"
-    shortname = "echo"
+      fqdn      = "echo.chegwin.org"
+      shortname = "echo"
     })}"
-   ]
+  ]
 }
 
 resource "helm_release" "kong_ohce_service_gateway_api" {
@@ -82,12 +82,12 @@ resource "helm_release" "kong_ohce_service_gateway_api" {
   create_namespace = true
   timeout          = 600
   depends_on       = [helm_release.kong-public]
-  values = [ 
+  values = [
     "${templatefile("./gateway/kong-echo-service-gateway-api/values.yaml", {
-    fqdn = "ohce.chegwin.org"
-    shortname = "ohce"
+      fqdn      = "ohce.chegwin.org"
+      shortname = "ohce"
     })}"
-   ]
+  ]
 }
 
 resource "helm_release" "kong_echo_service_ingress" {

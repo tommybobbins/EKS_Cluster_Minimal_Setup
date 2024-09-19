@@ -1,7 +1,7 @@
 variable "instance_types" {
   description = "EKS Instance types"
   type        = list(any)
-  default     = ["t3a.small","t3a.medium", "t3a.large"]
+  default     = ["t3a.small", "t3a.medium", "t3a.large"]
 }
 
 variable "eks_default_nodegroup_types" {
